@@ -34,19 +34,30 @@ function insertData(event) {
     const krepselis = JSON.parse(localStorage.getItem("cart")) || [];
 
     //padaryti tikrinima, ar preke tokiu kodu dar neegzistuoja
-    
-    //2. i krepseli idedu nauja preke
-    krepselis.push({
-        id: enterID.value,
-        name: enterName.value,
-        quantity: enterQuantity.value,
-    })
+    let codes = [];
+    for (let i = 0; i < krepselis.length; i++) {
+        codes.push(krepselis[i].id);
+    }
+    if (codes.includes(enterID.value)) {
+        alert("Preke tokiu kodu jau yra...");
+    } else {
+        //2. i krepseli idedu nauja preke
+        krepselis.push({
+            id: enterID.value,
+            name: enterName.value,
+            quantity: enterQuantity.value,
+        })
+    }
 
     //3. idedu i local storage
     localStorage.setItem('cart', JSON.stringify(krepselis));
 
     // 4. tikrinu
     console.log(JSON.parse(localStorage.getItem('cart')));
+    //5. lauku trynimas, valymas
+        enterID.value = "",
+        enterName.value = "",
+        enterQuantity.value = ""
 }
 //duomenu gavimo funkcija
 function getDataFromLocalStorage(event) {
@@ -71,8 +82,11 @@ function getDataFromLocalStorage(event) {
             placeForResult.appendChild(listItem);
         }
 
-    })
+    });
+    //lauko isvalymas
+    findID.value = ''
 
+    //ND -> padaryti, kad gauti duomenys butu atvazduojami  HTML lenteleje
 }
 //duomenu trynimo funkcija
 function deleteDataFromLocalStorage(event) {
@@ -94,6 +108,10 @@ function deleteDataFromLocalStorage(event) {
     console.log(typeof enterID.value)
     // 4. irasyti nauja info i LS
     localStorage.setItem('cart', JSON.stringify(naujasMasyvas));
+    //lauko isvalymas
+    enterID.value = ""
+
+    //ND - padaryti, kad istrynus preke is local storage - jos nebelieka ir HTML lenteleje
 }
 
 //funkcijos iskvietimas
